@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NAVISIM</string>
+    <string name="action_settings">Settings</string>
+    <string name="map_api_key">AIzaSyA8bOktcV3jRA03pUKDBMPZw9XEeQbCE4U</string>
+    <string name="title_activity_main2">Setting</string>
+    <string name="title_activity_setting">Setting</string>
+</resources>
