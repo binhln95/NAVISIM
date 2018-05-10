@@ -177,7 +177,7 @@ typedef struct
 
 
 double runCore(char *sExternalStoragePath, int flag, int time);
-int runCore3(char *path, char *traj, int flag, int time);
+int runCore3(JNIEnv *env, jobject mainActivityObj, jmethodID timerId, char *path, char *traj, int flag, int time);
 void sendJavaMsg(JNIEnv *env, jobject instance, jmethodID func,const char* msg);
 int runCore2(char *sExternalStoragePath);
 void *gps_task(void *arg);

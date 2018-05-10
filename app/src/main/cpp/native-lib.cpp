@@ -26,10 +26,13 @@ Java_com_navis_navisim_MainActivity_stringFromJNI(
     jobject mainActivityObj = env->NewGlobalRef(instance);
     jclass clz = env->GetObjectClass(instance);
     jclass mainActivityClz = (jclass)env->NewGlobalRef(clz);
-    jmethodID timerId = env->GetMethodID(mainActivityClz, "callBack", "(Ljava/lang/String;)V");
+    jmethodID timerId = env->GetMethodID(mainActivityClz, "callBack1", "(DDD)V");
     char *msg = "BinhLN from cpp";
     jstring javaMsg = env->NewStringUTF(msg);
-    env->CallVoidMethod(mainActivityObj, timerId, javaMsg);
+    double d = 1.0;
+    jdouble jdouble = d;
+//    jdouble jdouble = env->
+//    env->CallVoidMethod(mainActivityObj, timerId, jdouble, jdouble, jdouble);
     std::string hello = "Hello from C++";
     return env->NewStringUTF(hello.c_str());
 }
@@ -87,7 +90,16 @@ Java_com_navis_navisim_MainActivity_generateData(
     int flagCore = (int)flag;
     int timeCore = (int)time;
 //    int res = runCore((char*)spath, flagCore, timeCore);
-    int result = runCore3(path, traj, flagCore, timeCore);
+    // start
+    jobject mainActivityObj = env->NewGlobalRef(instance);
+    jclass clz = env->GetObjectClass(instance);
+    jclass mainActivityClz = (jclass)env->NewGlobalRef(clz);
+    jmethodID timerId = env->GetMethodID(mainActivityClz, "callBack1", "(DDD)V");
+    char *msg = "BinhLN from cpp";
+    jstring javaMsg = env->NewStringUTF(msg);
+    env->CallVoidMethod(mainActivityObj, timerId, javaMsg);
+    // end
+    int result = runCore3(env, mainActivityObj, timerId, path, traj, flagCore, timeCore);
     return result;
 //    LOGD(" Result: %d", (int)res);
 //    return (int)res;

@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     static {
         System.loadLibrary("native-lib");
     }
+    public GoogleMap map;
 // /home/binhnl/Downloads/android-ndk-master/android-ndk/hello-jniCallback/app/build/intermediates/cmake/debug/obj/arm64-v8a
     /**
      * A native method that is implemented by the 'native-lib' native library,
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             folderData.mkdir();
         }
         stringFromJNI();
+        test();
         MapFragment m = (MapFragment) getFragmentManager().findFragmentById(R.id.myMap);
         m.getMapAsync(this);
         Toast.makeText(this, "Start load map", Toast.LENGTH_SHORT).show();
@@ -341,19 +343,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+//        LatLng HN = new LatLng(21.0056183, 105.8433475);
+////         googleMap.setMyLocationEnabled(true);
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(HN, 13));
+//        googleMap.addMarker(new MarkerOptions()
+//                .title("HUST")
+//                .snippet("Trường đại học Bách khoa Hà Nội")
+//                .position(HN));
+//        UiSettings uiSettings = googleMap.getUiSettings();
+//        uiSettings.setZoomControlsEnabled(true);
+    }
+
+    public void test() {
         LatLng HN = new LatLng(21.0056183, 105.8433475);
 //         googleMap.setMyLocationEnabled(true);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(HN, 13));
-        googleMap.addMarker(new MarkerOptions()
+        if (map == null) {
+            Log.d("BinhLN", "null");
+            return;
+        }
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(HN, 13));
+        map.addMarker(new MarkerOptions()
                 .title("HUST")
                 .snippet("Trường đại học Bách khoa Hà Nội")
                 .position(HN));
-        UiSettings uiSettings = googleMap.getUiSettings();
+        UiSettings uiSettings = map.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
     }
 
     public void callBack(String msg) {
-        Toast.makeText(this, "BinhLN: " + msg, Toast.LENGTH_SHORT).show();
         Log.d("BinhLN", msg);
+    }
+
+    public void callBack1(double msg, double msg1, double msg2) {
+        Log.d("BinhLN", "" + msg);
+        Log.d("BinhLN", "" + msg1);
+        Log.d("BinhLN", "" + msg2);
     }
 }

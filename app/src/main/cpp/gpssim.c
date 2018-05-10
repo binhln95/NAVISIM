@@ -2449,6 +2449,7 @@ double runCore(char *sExternalStoragePath, int flag, int time)
                 allocateChannel(chan, eph[ieph], ionoutc, grx, xyz[0], elvmask);
 
             // Show ditails about simulated channels
+
             if (verb==TRUE)
             {
                 LOGE("\n");
@@ -3710,8 +3711,11 @@ void runCore_realTime(void *arg)
 //    return(NULL);
 }
 
-int runCore3(char *path, char *traj, int flag, int time)
+int runCore3(JNIEnv *env, jobject mainActivityObj, jmethodID timerId, char *path, char *traj, int flag, int time)
 {
+    char *msg = "BinhLN from cpp";
+    jstring javaMsg = (*env)->NewStringUTF(env, msg);
+//    (*env)->CallVoidMethod(env, mainActivityObj, timerId, javaMsg);
     clock_t tstart,tend;
 
     FILE *fp;
@@ -4386,6 +4390,12 @@ int runCore3(char *path, char *traj, int flag, int time)
                 allocateChannel(chan, eph[ieph], ionoutc, grx, xyz[0], elvmask);
 
             // Show ditails about simulated channels
+            // BinhLN send data to android
+//            jobject mainActivityObj = (*env)->NewGlobalRef(env,instance);
+//            jclass clz = (*env)->GetObjectClass(env, instance);
+//            jclass mainActivityClz = (jclass)(*env)->NewGlobalRef(env, clz);
+//            jmethodID timerId = (*env)->GetMethodID(env,mainActivityClz, "callBack", "(Ljava/lang/String;)V");
+
             if (verb==TRUE)
             {
                 fprintf(stderr, "\n");
@@ -4397,6 +4407,8 @@ int runCore3(char *path, char *traj, int flag, int time)
                 }
             }
         }
+        jstring javaMsg = (*env)->NewStringUTF(env, msg);
+        (*env)->CallVoidMethod(env, mainActivityObj, timerId, xyz[0], xyz[1], xyz[2]);
 
         // Update receiver time
         grx = incGpsTime(grx, 0.1);
